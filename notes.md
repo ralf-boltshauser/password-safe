@@ -1,9 +1,10 @@
 # Password Safe
 
-# Concept
+## Concept
 
-# Thoughts
+## Thoughts
 
-## Authentication
+### Authentication
 
-## Storing passwords
+### Storing passwords
+
