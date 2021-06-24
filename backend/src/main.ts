@@ -4,8 +4,8 @@ import { AppModule } from './app.module';
 // eslint-disable-next-line prettier/prettier
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-
+  const app = await NestFactory.create(AppModule, { cors: true });
+  app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
@@ -15,4 +15,5 @@ async function bootstrap() {
   );
   await app.listen(3000);
 }
+
 bootstrap();
