@@ -21,13 +21,17 @@ export class UsersService {
     }
 
     const id = this.users[this.users.length - 1]?.userId + 1 || 0;
-    const hash = await bcrypt.hash(user.password, 10);
 
+    const saltOrRounds = 10;
+    const hash = await bcrypt.hash(user.password, saltOrRounds);
     this.users.push({ userId: id, ...user, password: hash });
     return { userId: id, ...user, password: user.password };
   }
 
   async findOne(username: string): Promise<User | undefined> {
     return this.users.find((user) => user.username === username);
+  }
+  async findOneById(id: number): Promise<User | undefined> {
+    return this.users.find((user) => user.userId === id);
   }
 }
