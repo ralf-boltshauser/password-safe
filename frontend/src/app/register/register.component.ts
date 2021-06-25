@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -8,12 +9,11 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {}
-  emailFormControl = new FormControl('', [
+  usernameFormControl = new FormControl('', [
     Validators.required,
-    Validators.email,
   ]);
   passwordFormControl = new FormControl('', [
     Validators.required,
@@ -21,9 +21,9 @@ export class RegisterComponent implements OnInit {
   ]);
 
   submit() {
-    if (this.emailFormControl.valid && this.passwordFormControl.valid) {
+    if (this.usernameFormControl.valid && this.passwordFormControl.valid) {
       this.userService.register(
-        this.emailFormControl.value,
+        this.usernameFormControl.value,
         this.passwordFormControl.value
       );
     }

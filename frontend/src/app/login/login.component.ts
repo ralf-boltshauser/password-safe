@@ -11,19 +11,19 @@ export class LoginComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {}
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
+  usernameFormControl = new FormControl('', [
+    Validators.required
   ]);
   passwordFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(8),
   ]);
 
+
   submit() {
-    if (this.emailFormControl.valid && this.passwordFormControl.valid) {
+    if (this.usernameFormControl.valid && this.passwordFormControl.valid) {
       this.userService.login(
-        this.emailFormControl.value,
+        this.usernameFormControl.value,
         this.passwordFormControl.value
       );
     }
