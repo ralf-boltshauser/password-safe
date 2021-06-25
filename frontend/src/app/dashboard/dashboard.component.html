@@ -15,21 +15,34 @@
   <!-- Name Column -->
   <ng-container matColumnDef="password">
     <th mat-header-cell *matHeaderCellDef>Password</th>
-    <td mat-cell *matCellDef="let element">{{ element.password }}</td>
+    <td mat-cell *matCellDef="let element" id="pw{{ element.passwordId }}">
+      {{ element.password }}
+    </td>
   </ng-container>
   <ng-container matColumnDef="actions">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
-      <button (click)="delete(element.passwordId)" mat-button color="warn">
-        Delete Password
+      <button
+        style="padding: 0"
+        (click)="delete(element.passwordId)"
+        mat-icon-button
+        color="warn"
+      >
+        <mat-icon>delete</mat-icon>
       </button>
     </td>
   </ng-container>
-
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">No data</td>
+  </tr>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
 
-<button style="margin-top: 20px" mat-raised-button (click)="openDialog()">
+<button
+  style="margin: 20px; color: rgb(123, 165, 214)"
+  mat-raised-button
+  (click)="openDialog()"
+>
   Create
 </button>

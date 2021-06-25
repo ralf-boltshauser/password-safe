@@ -34,9 +34,7 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.password = result;
-      console.log(this.password);
       this.create();
     });
   }
@@ -57,7 +55,6 @@ export class DashboardComponent implements OnInit {
 
   refresh() {
     this.passwordService.getAll().subscribe((data: any) => {
-      console.log(data);
       this.dataSource.data = data;
       this.changeDetectorRefs.detectChanges();
     });

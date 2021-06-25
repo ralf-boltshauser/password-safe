@@ -10,10 +10,13 @@ export class UserService {
   constructor(private httpClient: HttpClient, private router: Router, private _snackBar: MatSnackBar) {
     this.isLoggedIn().subscribe((data: any) => {
       this.loggedIn = true;
+      console.log(data);
+
     }, (error) => {
       this.loggedIn = false;
+      console.log(false);
       this.logout();
-      console.log(error);
+
     })
   }
 
@@ -27,7 +30,7 @@ export class UserService {
     return this.httpClient.post(environment.apiBaseUrl + '/auth/login', { username, password }).subscribe((data) => {
       if (data) {
         this.loggedIn = true;
-        console.log(data);
+
         this.setSession(data);
         this.router.navigate(['/dashboard']);
       }
@@ -59,7 +62,6 @@ export class UserService {
 
       localStorage.removeItem("access_token");
     } catch (exception) {
-      console.log(exception);
     }
     this.router.navigate(['/login']);
   }
@@ -69,7 +71,7 @@ export class UserService {
     if (accessToken == '') {
       this.logout();
     }
-    console.log(accessToken);
+
     return accessToken;
   }
 
