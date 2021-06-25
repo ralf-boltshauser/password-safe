@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import * as moment from "moment";
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable({
@@ -12,11 +11,13 @@ export class UserService {
     this.isLoggedIn().subscribe((data: any) => {
       this.loggedIn = true;
     }, (error) => {
-
+      this.loggedIn = false;
+      this.logout();
+      console.log(error);
     })
   }
 
-  public loggedIn: boolean = false;
+  public loggedIn: boolean = true;
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -54,19 +55,38 @@ export class UserService {
 
   logout() {
     this.loggedIn = false;
-    localStorage.removeItem("access_token");
+    try {
+
+      localStorage.removeItem("access_token");
+    } catch (exception) {
+      console.log(exception);
+    }
     this.router.navigate(['/login']);
+  }
+
+  getAccessToken() {
+    let accessToken = localStorage.getItem('access_token') || '';
+    if (accessToken == '') {
+      this.logout();
+    }
+    console.log(accessToken);
+    return accessToken;
   }
 
   public isLoggedIn() {
     let access_token = '';
-    if (!this.loggedIn) {
-      access_token = localStorage.getItem('access_token') || '';
-
-    }
+    access_token = localStorage.getItem('access_token') || '';
     return this.httpClient.get(environment.apiBaseUrl + '/profile', {
       headers: {
         'Authorization': `Bearer ${access_token}`,
+      }
+    });
+  }
+
+  createPassword() {
+    return this.httpClient.post(environment.apiBaseUrl + '/passwords', { name: 'test', password: 'test' }, {
+      headers: {
+        'Authorization': `Bearer ${this.getAccessToken()}`,
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Password } from 'src/entities/password.entity';
 import { User } from 'src/entities/user.entity';
 import { CreatePasswordDto } from './dto/create-password.dto';
@@ -22,19 +22,42 @@ export class PasswordService {
   }
 
   findAll(user: User) {
-    return this.passwords
-      .filter((password: Password) => password.userId == user.userId)
-      .map((password: Password) => {
-        password.password = this.decrypt(
-          password.password,
-          user.userId + user.username,
-        );
-        return password;
-      });
+    const tempPasswords = [];
+    this.passwords.forEach((password) => {
+      if (password.userId == user.userId) {
+        tempPasswords.push({ ...password });
+      }
+    });
+
+    tempPasswords.filter(
+      (password: Password) => password.userId == user.userId,
+    );
+    tempPasswords.map((password: Password) => {
+      password.password = this.decrypt(
+        password.password,
+        user.userId + user.username,
+      );
+      return password;
+    });
+    return tempPasswords;
   }
 
   encrypt(message: string, key: string) {
     return CryptoJs.AES.encrypt(message, key).toString();
+  }
+
+  delete(user: User, id: number) {
+    const passwordToDelete = this.passwords.find(
+      (password) => password.passwordId == id,
+    );
+    if (passwordToDelete.userId == user.userId) {
+      const index = this.passwords.indexOf(passwordToDelete);
+      if (index > -1) {
+        this.passwords.splice(index, 1);
+      }
+    } else {
+      throw new BadRequestException();
+    }
   }
 
   decrypt(cipherText: string, key: string) {

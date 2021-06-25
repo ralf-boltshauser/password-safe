@@ -13,13 +13,15 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddPasswordComponent } from './add-password/add-password.component';
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    AddPasswordComponent
   ],
   imports: [
     HttpClientModule,

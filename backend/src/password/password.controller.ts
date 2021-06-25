@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -14,6 +16,7 @@ import { PasswordService } from './password.service';
 @Controller('passwords')
 export class PasswordController {
   constructor(private passwordService: PasswordService) {}
+
   @UseGuards(JwtAuthGuard)
   @Post()
   createPassword(@Request() req, @Body() password: CreatePasswordDto) {
@@ -24,5 +27,13 @@ export class PasswordController {
   @Get()
   findALl(@Request() req) {
     return this.passwordService.findAll(req.user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  delete(@Request() req, @Param() params) {
+    this.passwordService.delete(req.user, params.id);
+
+    return true;
   }
 }
