@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
 
@@ -19,6 +19,12 @@ export class LoginComponent implements OnInit {
     Validators.minLength(8),
   ]);
 
+  @ViewChild('input', { static: false })
+  set input(element: ElementRef<HTMLInputElement>) {
+    if (element) {
+      element.nativeElement.focus();
+    }
+  }
 
   submit() {
     if (this.usernameFormControl.valid && this.passwordFormControl.valid) {
