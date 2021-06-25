@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.password = result;
       this.create();
+      this.password = {}; 
     });
   }
 

@@ -5,10 +5,12 @@
       <mat-form-field class="example-full-width">
         <mat-label>Username</mat-label>
         <input
+          #input
           type="text"
           matInput
           [formControl]="usernameFormControl"
           placeholder="Ex. John"
+          matInputAutofocus
         />
         <mat-error *ngIf="!usernameFormControl.hasError('required')">
           Please enter a valid username address
